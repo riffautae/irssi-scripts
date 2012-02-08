@@ -17,26 +17,26 @@ $reg = qr#((?:https?|ftp)://)((?:[^\s<>"/]*\.)*[\w\-]+\.[\w\-]+(?::[0-9]+)?)((?:
 sub check_url ($) {
     my ($text) = @_;
 
-        if ( $text =~ $reg )
-        {
-                return 1;
-        }
+    if ( $text =~ $reg )
+    {
+            return 1;
+    }
 }
 
 sub sig_printtext {
-  my ($server, $data, $nick, $mask, $target) = @_;
+    my ($server, $data, $nick, $mask, $target) = @_;
 
-  if (check_url($data)) {
-    $window = Irssi::window_find_name('urls');
+    if (check_url($data)) {
+        $window = Irssi::window_find_name('urls');
 
         $data =~ s/\%/\%\%/g;
 
         $data =~ s/$reg/\%0\1\%_\2\%_\3\%n/g;
 
-    $text = "\%g".$target."\%n: <\%B".$nick."\%n> ".$data;
-    
-    $window->print($text, MSGLEVEL_CLIENTCRAP) if ($window);
-  }
+        $text = "\%g".$target."\%n: <\%B".$nick."\%n> ".$data;
+        
+        $window->print($text, MSGLEVEL_CLIENTCRAP) if ($window);
+    }
 }
 
 $window = Irssi::window_find_name('urls');
